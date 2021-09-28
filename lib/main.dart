@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:raffle_project/screens/login_screen.dart';
 import 'package:raffle_project/screens/new_item.dart';
 import 'package:raffle_project/screens/profile_page.dart';
 import 'package:raffle_project/screens/registration_screen.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: UserService.checkIfUserIsLogged()?ProfilePage(email: _auth.currentUser!.email.toString()):startingPage(),
+      home: UserService.checkIfUserIsLogged()?ProfilePage(email: _auth.currentUser!.email.toString()):LogInScreen(),
     );
   }
 }

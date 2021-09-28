@@ -10,6 +10,9 @@ class alertDialogModel extends StatelessWidget {
     return AlertDialog(
       title: Text('Excelente eleccion al elegir el numero $number, suerte en su jugada!'),
       elevation: 24.0,
+      actions: [
+        Center(child: FlatButton(onPressed: (){Navigator.pop(context);}, child: Text('Okay')))
+      ],
     );
   }
 }

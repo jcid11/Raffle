@@ -8,7 +8,7 @@ class UserService {
   final _firestore = FirebaseFirestore.instance;
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future createUserOnFirebase({required String name, required String email,required String password,required int typeofaccount,required String identification,required int phoneNumber,required String category})async{
+  Future createUserOnFirebase({required String name, required String email,required String password,required int typeofaccount,required int identification,required int phoneNumber,required String category})async{
     if(checkIfUserIsLogged()){
       await _firestore.collection('user').doc(auth.currentUser!.uid).set({
         'name': name,

@@ -21,14 +21,14 @@ class bodyPage extends StatelessWidget {
         children: [
           RawMaterialButton(
               onPressed: () {
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
               },
               child: Container(
                 child: Text('Login'),
               )),
           RawMaterialButton(
               onPressed: () {
-                Navigator.pushReplacement(
+                Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => preregistrationScreen()));

@@ -2,12 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:raffle_project/alertDialog.dart';
-import 'package:raffle_project/screens/profile_page.dart';
 import 'package:raffle_project/screens/splash_screen.dart';
 import 'package:raffle_project/service/user_service.dart';
-
-import '../HomePage.dart';
-import '../constant.dart';
 import '../constants.dart';
 
 class preregistrationScreen extends StatelessWidget {

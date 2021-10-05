@@ -29,7 +29,6 @@ class itemStream extends StatelessWidget {
         if (!snapshot.hasData) {
           return Text('no data');
         }
-
         List<QueryDocumentSnapshot> items = snapshot.data!.docs;
         int itemQty = snapshot.data!.docs.length;
         if(itemQty>0){

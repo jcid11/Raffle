@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:raffle_project/models/user_model.dart';
+import 'package:raffle_project/service/user_model.dart';
 
 import '../type_of_account.dart';
 
@@ -19,6 +20,15 @@ class UserService {
         'phoneNumber': phoneNumber,
         'category' : category
       });
+    }
+  }
+
+  Future <UserServiceModel> getUserPersonalInfo()async{
+    DocumentSnapshot documentSnapshot = await _firestore.collection('user').doc(getUserUid()).get();
+    if(documentSnapshot.data()!=null){
+      return UserServiceModel(name: documentSnapshot.get('name'));
+    }else{
+      return UserServiceModel(name: 'yup');
     }
   }
 

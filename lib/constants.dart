@@ -36,7 +36,6 @@ final kTextFormStyle = InputDecoration(
       BorderSide(color: Colors.white, width: 1.0)),
 );
 const kStartingPagePadding = EdgeInsets.all(40);
-
 const kTextFieldStyle = TextStyle(
     color: Colors.white, fontWeight: FontWeight.bold);
 const kButtonPadding =  EdgeInsets.all(14.0);
@@ -48,5 +47,4 @@ const kButtonStyle = TextStyle(
     fontWeight: FontWeight.bold,
     fontSize: 14,
     letterSpacing: 1);
-
- Color kTestColor = Colors.white;
+const kBottomNavigationBarColor = Color(0xFF2B9ED2);

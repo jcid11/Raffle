@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:raffle_project/screens/login_screen.dart';
 import 'package:raffle_project/screens/plays_made.dart';
 import 'package:raffle_project/screens/profile_page.dart';
 import 'package:raffle_project/screens/raffle_items.dart';
@@ -60,10 +61,10 @@ class _HomePageDesignState extends State<HomePageDesign> {
         ),
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              colors: <Color>[
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: <Color>[
                 Color(0xFF81d1dd),
                 Color(0xFF73cbde),
                 // Color(0xFFaeb6c8),
@@ -71,19 +72,30 @@ class _HomePageDesignState extends State<HomePageDesign> {
                 Color(0xFF4abae4),
                 Color(0xFF3ab4e4),
                 Color(0xFF2B9ED2),
-              ]
-            )
-          ),
+              ])),
         ),
         actions: [
-          RawMaterialButton(
-            onPressed: () {},
-            child: Icon(
-              Icons.login,
-              color: Colors.red,
-              size: 30,
-            ),
-          )
+          PopupMenuButton(
+              itemBuilder: (context) => [
+                    PopupMenuItem(
+                      child: RawMaterialButton(
+                        child: Text("Log out"),
+                        onPressed: () {
+                          _auth.signOut();
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+                        },
+                      ),
+                      value: 1,
+                    ),
+                  ])
+          // RawMaterialButton(
+          //   onPressed: () {},
+          //   child: Icon(
+          //     Icons.login,
+          //     color: Colors.red,
+          //     size: 30,
+          //   ),
+          // )
         ],
       ),
       drawer: Drawer(),
@@ -152,7 +164,18 @@ class _HomePageDesignState extends State<HomePageDesign> {
   }
 }
 
-class homePageStream extends StatelessWidget {
+class homePageStream extends StatefulWidget {
+  @override
+  State<homePageStream> createState() => _homePageStreamState();
+}
+
+class _homePageStreamState extends State<homePageStream> {
+  String dropdownValue = '<Default>';
+  Stream<QuerySnapshot> callStream = _firestore
+      .collection('user')
+      .where('typeOfAccount', isEqualTo: 1)
+      .snapshots();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -162,12 +185,9 @@ class homePageStream extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 100.0),
+            padding: const EdgeInsets.only(top: 130.0),
             child: StreamBuilder<QuerySnapshot>(
-              stream: _firestore
-                  .collection('user')
-                  .where('typeOfAccount', isEqualTo: 1)
-                  .snapshots(),
+              stream: callStream,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   return Text('No data has been implemented yet');
@@ -188,15 +208,21 @@ class homePageStream extends StatelessWidget {
                   children: [
                     Expanded(
                       child: ClipRRect(
-                        borderRadius:BorderRadius.only(topRight: Radius.circular(20),topLeft: Radius.circular(20)),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            topLeft: Radius.circular(20)),
                         child: Container(
                           color: Colors.grey[100],
-                          child: ListView.builder(
-                            itemCount: homeContent.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return homePageContent(
-                                  homeModel: homeContent[index], index: index);
-                            },
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 30.0),
+                            child: ListView.builder(
+                              itemCount: homeContent.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return homePageContent(
+                                    homeModel: homeContent[index],
+                                    index: index);
+                              },
+                            ),
                           ),
                         ),
                       ),
@@ -207,7 +233,7 @@ class homePageStream extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 84,
+            top: 108,
             child: Material(
               elevation: 2,
               borderRadius: BorderRadius.circular(20),
@@ -215,18 +241,68 @@ class homePageStream extends StatelessWidget {
                 width: 250,
                 decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)
-                ),
+                    borderRadius: BorderRadius.circular(20)),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left:8.0),
-                        child: Icon(Icons.notes,size: 16,),
+                        padding: const EdgeInsets.only(left: 8.0),
+                        child: Icon(
+                          Icons.notes,
+                          size: 16,
+                        ),
                       ),
-                      SizedBox(width: 10,),
-                      Text('Order By'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Expanded(child: Text('Ordenar por')),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 20.0),
+                        child: DropdownButton<String>(
+                          value: dropdownValue,
+                          elevation: 16,
+                          isDense: true,
+                          style: const TextStyle(color: Color(0xFF2B9ED2)),
+                          underline: Container(
+                            height: 2,
+                            color: Colors.blueGrey,
+                          ),
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownValue = newValue!;
+                              if (dropdownValue == 'Letra') {
+                                callStream = _firestore
+                                    .collection('user')
+                                    .where('typeOfAccount', isEqualTo: 1)
+                                    .orderBy('name')
+                                    .snapshots();
+                              } else if (dropdownValue == 'Categoria') {
+                                callStream = _firestore
+                                    .collection('user')
+                                    .where('typeOfAccount', isEqualTo: 1)
+                                    .orderBy('category')
+                                    .snapshots();
+                              } else {
+                                callStream = _firestore
+                                    .collection('user')
+                                    .where('typeOfAccount', isEqualTo: 1)
+                                    .snapshots();
+                              }
+                            });
+                          },
+                          items: <String>['<Default>', 'Letra', 'Categoria']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(
+                                value,
+                                style: TextStyle(color: Color(0xFF2B9ED2)),
+                              ),
+                            );
+                          }).toList(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -247,34 +323,31 @@ class homePageContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 2.0),
-      child: RawMaterialButton(
-        padding: EdgeInsets.all(5),
-        onPressed: () {
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => RaffleItemPage(
-                        company: homeModel.email,
-                      )));
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-          child: Card(
-            color: Colors.grey[200],
-            elevation: 2,
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundImage: NetworkImage(
-                    'https://pbs.twimg.com/profile_images/1009159188549808130/XCxcD7eS.jpg'),
-              ),
-              title: Text(homeModel.name),
-              subtitle: Text(homeModel.email),
-              trailing: Text(
-                homeModel.category,
-                style: TextStyle(fontSize: 12, color: Colors.grey[700]),
-              ),
+    return RawMaterialButton(
+      padding: EdgeInsets.all(5),
+      onPressed: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => RaffleItemPage(
+                      company: homeModel.email,
+                    )));
+      },
+      child: Padding(
+        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+        child: Card(
+          color: Colors.grey[200],
+          elevation: 2,
+          child: ListTile(
+            leading: CircleAvatar(
+              backgroundImage: NetworkImage(
+                  'https://pbs.twimg.com/profile_images/1009159188549808130/XCxcD7eS.jpg'),
+            ),
+            title: Text(homeModel.name),
+            subtitle: Text(homeModel.email),
+            trailing: Text(
+              homeModel.category,
+              style: TextStyle(fontSize: 12, color: Colors.grey[700]),
             ),
           ),
         ),

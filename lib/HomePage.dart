@@ -82,20 +82,15 @@ class _HomePageDesignState extends State<HomePageDesign> {
                         child: Text("Log out"),
                         onPressed: () {
                           _auth.signOut();
-                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>LogInScreen()));
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LogInScreen()));
                         },
                       ),
                       value: 1,
                     ),
                   ])
-          // RawMaterialButton(
-          //   onPressed: () {},
-          //   child: Icon(
-          //     Icons.login,
-          //     color: Colors.red,
-          //     size: 30,
-          //   ),
-          // )
         ],
       ),
       drawer: Drawer(),
@@ -111,7 +106,6 @@ class _HomePageDesignState extends State<HomePageDesign> {
               color: Colors.red,
             ),
             ProfilePage(email: _auth.currentUser!.email.toString()),
-            PlaysPage()
           ],
         ),
       ),
@@ -149,15 +143,6 @@ class _HomePageDesignState extends State<HomePageDesign> {
                 Icons.person,
                 color: kBottomNavigationBarColor,
               )),
-          BottomNavyBarItem(
-              title: Text(
-                'Historial',
-                style: (TextStyle(color: kBottomNavigationBarColor)),
-              ),
-              icon: Icon(
-                Icons.notes,
-                color: kBottomNavigationBarColor,
-              )),
         ],
       ),
     );
@@ -179,13 +164,13 @@ class _homePageStreamState extends State<homePageStream> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blue,
+      color: Color(0xFF73cbde),
       child: Stack(
         overflow: Overflow.visible,
         alignment: Alignment.center,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 130.0),
+            padding: const EdgeInsets.only(top: 80.0),
             child: StreamBuilder<QuerySnapshot>(
               stream: callStream,
               builder: (context, snapshot) {
@@ -212,17 +197,41 @@ class _homePageStreamState extends State<homePageStream> {
                             topRight: Radius.circular(20),
                             topLeft: Radius.circular(20)),
                         child: Container(
-                          color: Colors.grey[100],
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 30.0),
-                            child: ListView.builder(
-                              itemCount: homeContent.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return homePageContent(
-                                    homeModel: homeContent[index],
-                                    index: index);
-                              },
-                            ),
+                          color: Colors.white.withOpacity(0.95),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      color:Colors.blueGrey,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 26.0,bottom: 5),
+                                        child: Column(
+                                          children: [
+                                            Center(child: Text('Compañias Registradas',style: TextStyle(color: Colors.white,fontSize: 18,fontWeight: FontWeight.bold),)),
+                                            Center(child: Text('(Dar click a una compañia para ver que articulos tienen registrados)',style: TextStyle(color: Colors.white,fontSize: 12),))
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: ListView.builder(
+                                    itemCount: homeContent.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return homePageContent(
+                                          homeModel: homeContent[index],
+                                          index: index);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -233,7 +242,7 @@ class _homePageStreamState extends State<homePageStream> {
             ),
           ),
           Positioned(
-            top: 108,
+            top: 60,
             child: Material(
               elevation: 2,
               borderRadius: BorderRadius.circular(20),
@@ -324,6 +333,7 @@ class homePageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
+      elevation: 10,
       padding: EdgeInsets.all(5),
       onPressed: () {
         Navigator.push(
@@ -334,24 +344,55 @@ class homePageContent extends StatelessWidget {
                     )));
       },
       child: Padding(
-        padding: const EdgeInsets.only(left: 12.0, right: 12.0),
-        child: Card(
-          color: Colors.grey[200],
-          elevation: 2,
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://pbs.twimg.com/profile_images/1009159188549808130/XCxcD7eS.jpg'),
+          padding: const EdgeInsets.only(left: 12.0, right: 12.0),
+          child: Container(
+            decoration: BoxDecoration(
+              color: Color(0xFF2B9ED2).withOpacity(0.2),
+              borderRadius: BorderRadius.circular(20)
             ),
-            title: Text(homeModel.name),
-            subtitle: Text(homeModel.email),
-            trailing: Text(
-              homeModel.category,
-              style: TextStyle(fontSize: 12, color: Colors.grey[700]),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 10.0,right: 10,top: 8,bottom: 8),
+              child: Row(
+                children: [
+                  _rowImage(),
+                  columnRowInfo(homeModel.name,homeModel.email,),
+                  Expanded(child: Container()),
+                  trailingRowInfo(homeModel.category)
+                ],
+              ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
+
+Widget _rowImage(){
+  return Container(
+    child: Padding(
+      padding: const EdgeInsets.only(left: 4.0),
+      child: CircleAvatar(
+        backgroundImage: NetworkImage(
+            'https://pbs.twimg.com/profile_images/1009159188549808130/XCxcD7eS.jpg'),
+      ),
+    ),
+  );
+}
+
+Widget columnRowInfo(String name, String email){
+  return Padding(
+    padding: const EdgeInsets.only(left: 14.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(name,style: TextStyle(color: Colors.blueGrey,fontWeight: FontWeight.bold),),
+        SizedBox(height: 1,),
+        Text(email,style: TextStyle(fontSize: 12,color: Colors.blueGrey),)
+      ],
+    ),
+  );
+}
+
+Widget trailingRowInfo(String category){
+  return Text(category,style: TextStyle(fontSize: 12, color: Colors.grey[700]),);
+}
+

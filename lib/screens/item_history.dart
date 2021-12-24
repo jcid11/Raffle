@@ -35,26 +35,28 @@ class itemStream extends StatelessWidget {
         stream: _firestore
             .collection('Entrance')
             .where('itemName', isEqualTo: itemName)
-            .where('user', isEqualTo: _auth.currentUser!.email.toString())
+            .where('companyEmail', isEqualTo: _auth.currentUser!.email.toString())
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Text('no data');
           }
-          print(snapshot.data!.docs.length);
           List<QueryDocumentSnapshot> items = snapshot.data!.docs;
-          return Container(
-            height: 500,
-            child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                QueryDocumentSnapshot doc = items[index];
-                return ListTile(
-                  title: Text(
-                      'Numero ${doc.get('number')} articulo ${doc.get('itemName')} => ${doc.get('date')} por el usuario de correo ${doc.get('user')}'),
-                );
-              },
-            ),
+          return Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    QueryDocumentSnapshot doc = items[index];
+                    return ListTile(
+                      title: Text(
+                          'Numero ${doc.get('number')} articulo ${doc.get('itemName')} => ${doc.get('date')} por el usuario de correo ${doc.get('user')}'),
+                    );
+                  },
+                ),
+              ),
+            ],
           );
         });
   }

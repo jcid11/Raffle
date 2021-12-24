@@ -11,7 +11,6 @@ import 'package:raffle_project/screens/splash_screen.dart';
 import 'package:raffle_project/screens/startingPage.dart';
 import 'package:raffle_project/service/user_service.dart';
 
-final _auth = FirebaseAuth.instance;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

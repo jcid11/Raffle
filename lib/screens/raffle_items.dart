@@ -5,6 +5,7 @@ import 'package:raffle_project/ItemModel.dart';
 import 'package:raffle_project/screens/raffle_screen.dart';
 import 'package:raffle_project/service/raffle_model.dart';
 import 'package:raffle_project/service/user_service.dart';
+import 'package:raffle_project/widgets/widgets.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -30,11 +31,24 @@ class _RaffleItemPageState extends State<RaffleItemPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.lightBlue,
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
         elevation: 0,
-        title: Text('Raffle Items'),
+        title: Text('Articulos de rifa'),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.centerRight,
+                  end: Alignment.centerLeft,
+                  colors: <Color>[
+                    Color(0xFF81d1dd),
+                    Color(0xFF73cbde),
+                    // Color(0xFFaeb6c8),
+                    Color(0xFF5fc2e0),
+                    Color(0xFF4abae4),
+                    Color(0xFF3ab4e4),
+                    Color(0xFF2B9ED2),
+                  ])),
+        ),
       ),
       body: Column(
         children: [
@@ -54,7 +68,6 @@ class _RaffleItemPageState extends State<RaffleItemPage> {
                   for(var item in items){
                     final companyName = item.get('name');
                     final companyEmail =  item.get('email');
-
                     raffleList.add(RaffleModel(name: companyName, email: companyEmail));
                   }
                   return  ListView.builder(
@@ -119,34 +132,13 @@ class bodyStreamContent extends StatelessWidget {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> RaffleScreen(id:itemModel.id,email: itemModel.email,name: itemModel.name,price: itemModel.price,)));
               },
               child: Card(
-                color: Colors.grey[200],
+                color: Color(0xFF2B9ED2).withOpacity(0.3),
                 elevation: 2,
                 child: ListTile(
-                  title: Text(itemModel.name),
-                  subtitle: Text('Boletos ${itemModel.price} c/u, quedan ${100-quantity} boletos '),
+                  title: Text(itemModel.name,style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+                  subtitle: Text('Boletos ${itemModel.price} c/u, quedan ${countItem(quantity)} boletos',style: TextStyle(color: Colors.white.withOpacity(0.9)),),
                   leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Image.asset('images/1.png',width: 60,height:60,fit: BoxFit.fill,),
-                  ),
-                ),
-              ),
-            ),
-          );
-        }else{
-          return Padding(
-            padding: const EdgeInsets.only(top: 4.0,bottom: 4,left: 8,right: 8),
-            child: RawMaterialButton(
-              onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context)=> RaffleScreen(id:itemModel.id,email: itemModel.email,name: itemModel.name,price: itemModel.price,)));
-              },
-              child: Card(
-                color: Colors.grey[200],
-                elevation: 2,
-                child: ListTile(
-                  title: Text(itemModel.name),
-                  subtitle: Text('Boletos ${itemModel.price} c/u, quedan 100 boletos '),
-                  leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(15),
                     child: Image.asset('images/1.png',width: 60,height:60,fit: BoxFit.fill,),
                   ),
                 ),
@@ -154,7 +146,25 @@ class bodyStreamContent extends StatelessWidget {
             ),
           );
         }
+        return Container(
+          height: 70,
+          width: 200,
+          child: ListView.builder(
+            itemCount: 1,
+            itemBuilder: (context,index){
+              return shimmerList();
+            },
+          ),
+        );
       },);
+  }
+}
+
+int countItem(int value){
+  if(value>0){
+    return 100-value;
+  }else{
+    return 100;
   }
 }
 

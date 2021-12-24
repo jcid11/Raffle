@@ -36,18 +36,21 @@ class itemStream extends StatelessWidget {
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
               QueryDocumentSnapshot doc = items[index];
-              return ListTile(title: Card(
-                child: RawMaterialButton(
-                    onPressed: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemHistory(itemName: doc.get('ItemName'))));
-                    },
-                    child: Row(
-                      children: [
-                        Expanded(child: Text('${doc.get('ItemName')} => ${doc.get('date')}')),
-                        Text('Ver historial',style: TextStyle(fontSize: 12,color: Colors.blueGrey),)
-                      ],
-                    )),
-              ),);
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Card(
+                  child: RawMaterialButton(
+                      onPressed: (){
+                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemHistory(itemName: doc.get('ItemName'))));
+                      },
+                      child: Row(
+                        children: [
+                          Expanded(child: Text('${doc.get('ItemName')} => ${doc.get('date')}')),
+                          Text('Ver historial',style: TextStyle(fontSize: 12,color: Colors.blueGrey),)
+                        ],
+                      )),
+                ),
+              );
             },
           );
         }else{

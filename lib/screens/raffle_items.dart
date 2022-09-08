@@ -96,7 +96,8 @@ class _RaffleItemPageState extends State<RaffleItemPage> {
                       final messagePrice = item.get('ItemPrice');
                       final itemID = item.id;
                       final companyEmail = item.get('CompanyEmail');
-                      ListModel.add(ItemModel(name:messageName,price:messagePrice,id:itemID,email: companyEmail));
+                      final imageName = item.get('image');
+                      ListModel.add(ItemModel(name:messageName,price:messagePrice,id:itemID,email: companyEmail,image: imageName));
                     }
                     return ListView.builder(
                       itemCount: ListModel.length,
@@ -139,7 +140,7 @@ class bodyStreamContent extends StatelessWidget {
                   subtitle: Text('Boletos ${itemModel.price} c/u, quedan ${countItem(quantity)} boletos',style: TextStyle(color: Colors.white.withOpacity(0.9)),),
                   leading: ClipRRect(
                     borderRadius: BorderRadius.circular(15),
-                    child: Image.asset('images/1.png',width: 60,height:60,fit: BoxFit.fill,),
+                    child: Image.network(itemModel.image,width: 60,height:60,fit: BoxFit.fill,),
                   ),
                 ),
               ),

@@ -166,7 +166,6 @@ class _homePageStreamState extends State<homePageStream> {
     return Container(
       color: Color(0xFF73cbde),
       child: Stack(
-        overflow: Overflow.visible,
         alignment: Alignment.center,
         children: [
           Padding(

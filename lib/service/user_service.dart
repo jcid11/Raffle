@@ -1,16 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:raffle_project/models/user_model.dart';
 import 'package:raffle_project/service/user_model.dart';
-
-import '../type_of_account.dart';
 
 class UserService {
   final _firestore = FirebaseFirestore.instance;
   static final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Future createUserOnFirebase({required String name, required String email,required String password,required int typeofaccount,required int identification,required int phoneNumber,required String category})async{
+  Future createUserOnFirebase({required String name, required String email,required String password,required int typeofaccount,required String identification,required int phoneNumber,required String category})async{
     if(checkIfUserIsLogged()){
       await _firestore.collection('user').doc(auth.currentUser!.uid).set({
         'name': name,

@@ -52,7 +52,7 @@ class _registrationScreenState extends State<registrationScreen> {
             password: txtPassword.text,
             name: txtUser.text.trim(),
             typeofaccount: typeOfAccount,
-            identification: int.parse(txtIdentification.text),
+            identification: txtIdentification.text,
             phoneNumber: int.parse(txtPhoneNumber.text),
             category: category);
         txtUser.clear();

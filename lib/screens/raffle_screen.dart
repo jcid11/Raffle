@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -66,6 +67,7 @@ class numberContainer extends StatefulWidget {
   final String price;
 
 
+
   numberContainer(
       {required this.number, required this.index, required this.id, required this.email, required this.name, required this.price});
 
@@ -90,6 +92,7 @@ class _numberContainerState extends State<numberContainer> {
     map['date']= dateTime;
     await _firestore.collection('Entrance').add(map);
   }
+  final storage = FirebaseStorage.instance;
 
   @override
   void initState() {
@@ -103,7 +106,8 @@ class _numberContainerState extends State<numberContainer> {
     return Column(
       children: [
         StreamBuilder(
-          stream: _firestore
+          stream:
+          _firestore
               .collection('Entrance')
               .where('number', isEqualTo: widget.number).where('idItem',isEqualTo: widget.id)
               .snapshots(),

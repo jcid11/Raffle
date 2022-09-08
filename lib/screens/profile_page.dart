@@ -248,7 +248,10 @@ class lowerProfileContent extends StatefulWidget {
   final ProfilelowerModel profilelowerModel;
   final int index;
 
-  lowerProfileContent({required this.profilelowerModel, required this.index, required this.userPage});
+  lowerProfileContent(
+      {required this.profilelowerModel,
+      required this.index,
+      required this.userPage});
 
   @override
   _lowerProfileContentState createState() => _lowerProfileContentState();
@@ -256,12 +259,10 @@ class lowerProfileContent extends StatefulWidget {
 
 class _lowerProfileContentState extends State<lowerProfileContent> {
 
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
   }
 
   @override

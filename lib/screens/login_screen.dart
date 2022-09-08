@@ -12,12 +12,9 @@ import 'package:raffle_project/screens/registration_screen.dart';
 import 'package:raffle_project/screens/splash_screen.dart';
 
 class LogInScreen extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body:loginBody()
-    );
+    return Scaffold(body: loginBody());
   }
 }
 
@@ -25,14 +22,6 @@ class loginBody extends StatelessWidget {
   var txtEmail = TextEditingController();
   var txtPassword = TextEditingController();
   final _auth = FirebaseAuth.instance;
-
-  void currentUser() async {
-    final user = await _auth.currentUser;
-    if (user != null) {
-      final loggedInUser = user;
-    }
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -66,11 +55,12 @@ class loginBody extends StatelessWidget {
                           style: kTextFieldStyle,
                           obscureText: true,
                           controller: txtPassword,
-                          decoration: kTextFormStyle.copyWith(
-                            labelText: 'Contraseña'
-                          )),
+                          decoration:
+                              kTextFormStyle.copyWith(labelText: 'Contraseña')),
                     ),
-                    SizedBox(height: 25,),
+                    SizedBox(
+                      height: 25,
+                    ),
                     RawMaterialButton(
                       onPressed: () async {
                         try {
@@ -93,8 +83,7 @@ class loginBody extends StatelessWidget {
                         children: [
                           Expanded(
                             child: Material(
-                              borderRadius:
-                              kButtonRadius,
+                              borderRadius: kButtonRadius,
                               elevation: 1,
                               child: Container(
                                 child: Padding(
@@ -108,7 +97,7 @@ class loginBody extends StatelessWidget {
                                 decoration: BoxDecoration(
                                     color: Color(0xFFdef6ff),
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(6.0))),
+                                        BorderRadius.all(Radius.circular(6.0))),
                               ),
                             ),
                           ),
@@ -120,15 +109,17 @@ class loginBody extends StatelessWidget {
                     ),
                     RawMaterialButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>preregistrationScreen()));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => preregistrationScreen()));
                       },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                             child: Material(
-                              borderRadius:
-                              kButtonRadius,
+                              borderRadius: kButtonRadius,
                               elevation: 1,
                               child: Container(
                                 child: Padding(
@@ -136,22 +127,37 @@ class loginBody extends StatelessWidget {
                                   child: Text(
                                     'REGISTRARSE',
                                     textAlign: TextAlign.center,
-                                    style: kButtonStyle.copyWith(color: Colors.white70),
+                                    style: kButtonStyle.copyWith(
+                                        color: Colors.white70),
                                   ),
                                 ),
                                 decoration: BoxDecoration(
                                     color: Color(0xFF02a1cf),
                                     borderRadius:
-                                    BorderRadius.all(Radius.circular(6.0))),
+                                        BorderRadius.all(Radius.circular(6.0))),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Container(child: RawMaterialButton(onPressed: (){},child: Text('Olvido su contraseña?',style: TextStyle(color: Colors.white.withOpacity(0.8),letterSpacing: 0.5,),),)),
-
-                    Center(child: Text('Made by SnowEats',style: TextStyle(color: Colors.white.withOpacity(0.9),fontSize: 10),))
+                    Container(
+                        child: RawMaterialButton(
+                      onPressed: () {},
+                      child: Text(
+                        'Olvido su contraseña?',
+                        style: TextStyle(
+                          color: Colors.white.withOpacity(0.8),
+                          letterSpacing: 0.5,
+                        ),
+                      ),
+                    )),
+                    Center(
+                        child: Text(
+                      'Made by SnowEats',
+                      style: TextStyle(
+                          color: Colors.white.withOpacity(0.9), fontSize: 10),
+                    ))
                   ],
                 ),
               ),

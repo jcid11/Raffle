@@ -3,7 +3,8 @@ class ItemModel{
   final String price;
   final String id;
   final String email;
-  ItemModel( {required this.name, required this.price,required this.id,required this.email});
+  final String image;
+  ItemModel( {required this.name, required this.price,required this.id,required this.email,required this.image});
 }
 
 class raffleModel{

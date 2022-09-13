@@ -11,16 +11,20 @@ import 'package:raffle_project/screens/splash_screen.dart';
 import 'package:raffle_project/screens/startingPage.dart';
 import 'package:raffle_project/service/user_service.dart';
 
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDefault();
-  runApp(MyApp(
-  ));
+  runApp(MyApp());
 }
 
 Future<void> initializeDefault() async {
-  FirebaseApp app = await Firebase.initializeApp();
+  FirebaseApp app = await Firebase.initializeApp(
+      options: FirebaseOptions(
+        authDomain: "raffle-cf8d2.firebaseapp.com",
+          apiKey: "AIzaSyCzqKrdXIaqvJKV_hsjEYiHtWZjAio7Fz8",
+          appId: "1:1025417059141:web:3fffd75bc0963631f3bc2c",
+          messagingSenderId: "1025417059141",
+          projectId: "raffle-cf8d2"));
   assert(app != null);
   print('Initialized default app $app');
 }
@@ -34,7 +38,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: UserService.checkIfUserIsLogged()?HomePage():LogInScreen(),
+      home: UserService.checkIfUserIsLogged() ? HomePage() : LogInScreen(),
     );
   }
 }

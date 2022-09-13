@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-import 'package:raffle_project/HomePage.dart';
-import 'package:raffle_project/constant.dart';
 import 'package:raffle_project/constants.dart';
-import 'package:raffle_project/screens/new_item.dart';
 import 'package:raffle_project/screens/registration_screen.dart';
 import 'package:raffle_project/screens/splash_screen.dart';
 
